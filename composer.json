@@ -1,7 +1,7 @@
 {
   "name": "marciobds/sefaz-php",
   "description": "Consulte gratuitamente CNPJ no site do Sefaz -  Cadastro Centralizado de Contribuinte (CCC)",
-  "keywords": ["Sefaz", " Cadastro Centralizado de Contribuinte (CCC)"],
+  "keywords": ["sefaz", "cadastro centralizado de contribuinte"],
   "type": "library",
   "license": "MIT",
   "authors": [
