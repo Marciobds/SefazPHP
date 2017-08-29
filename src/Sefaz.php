@@ -1,5 +1,5 @@
 <?php
-namespace SefazPHP;
+namespace Marciobds\SefazPHP;
 
 use Exception;
 use Goutte\Client;

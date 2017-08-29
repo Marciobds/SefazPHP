@@ -2,7 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-use SefazPHP\Sefaz;
+use Marciobds\SefazPHP\Sefaz;
 
 $params = Sefaz::getParams();
 ?>
