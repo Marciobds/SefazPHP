@@ -10,4 +10,8 @@ before_script:
 
 script:
   - mkdir -p build/logs
+<<<<<<< HEAD
   - vendor/bin/phpunit tests/
+=======
+  - vendor/bin/phpunit -c phpunit.xml.dist --verbose
+>>>>>>> e9319514d133835695af5709af11c221116efb1c
