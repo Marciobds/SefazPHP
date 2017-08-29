@@ -1,6 +1,6 @@
 <?php
 
-use SefazPHP\Sefaz;
+use Marciobds\SefazPHP\Sefaz;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SefazTest extends PHPUnit_Framework_TestCase
