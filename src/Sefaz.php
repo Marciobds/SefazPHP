@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Sefaz
  *
- * @author Jansen felipe Bortolini dos Santos <marciobds@live.it>
+ * @author Jansen Felipe <jansen.felipe@gmail.com>
  * @author Márcio Bortolini dos Santos <marciobds@live.it>
  */
 class Sefaz
