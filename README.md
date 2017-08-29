@@ -1,5 +1,6 @@
 # SefazPHP
 
+[![Build Status](https://travis-ci.org/Marciobds/SefazPHP.svg?branch=master)](https://travis-ci.org/Marciobds/SefazPHP)
 [![Latest Stable Version](https://poser.pugx.org/marciobds/sefaz-php/v/stable)](https://packagist.org/packages/marciobds/sefaz-php)
 [![Total Downloads](https://poser.pugx.org/marciobds/sefaz-php/downloads)](https://packagist.org/packages/marciobds/sefaz-php)
 [![Latest Unstable Version](https://poser.pugx.org/marciobds/sefaz-php/v/unstable)](https://packagist.org/packages/marciobds/sefaz-php)
