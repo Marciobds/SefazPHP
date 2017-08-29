@@ -1,5 +1,5 @@
 {
-  "name": "sintegra-php/sc",
+  "name": "sefaz-php",
   "description": "Consulte gratuitamente CNPJ no site do Sefaz -  Cadastro Centralizado de Contribuinte (CCC)",
   "keywords": ["Sefaz", " Cadastro Centralizado de Contribuinte (CCC)"],
   "type": "library",
