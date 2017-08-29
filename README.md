@@ -39,7 +39,7 @@ $dadosEmpresa = SefazPHP\Sefaz::consulta(
     'INFORME_O_CODIGO_DO_UF'
 );
 ```
-O parâmetro UF não é obrigatório, porém sem informálo, o Sefaz irá efetuar a consulta em todos os estados, utilize este parâmetro para filtrar sua consulta.
+O parâmetro UF não é obrigatório, porém sem informá-lo, o Sefaz irá efetuar a consulta em todos os estados, utilize este parâmetro para filtrar sua consulta.
 
 Códigos de cada UF:
 
