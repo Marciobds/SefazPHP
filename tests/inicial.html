@@ -1,0 +1,1089 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head1"><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>
+	Sefaz RS - Secretaria da Fazenda do Estado do Rio Grande do Sul
+</title><meta name="google-site-verification" content="5fL-58aKi46Mhj4l6SbUPoLeCLKGGwGNZZLaDuAld68" /><link href="../Estilos/SiteSefaz.WebSite.css" rel="stylesheet" type="text/css" media="all" /><link rel="stylesheet" href="../Estilos/SiteSefaz.WebSite.Ecac.css" type="text/css" media="all" />
+    <script src="../Include2/jQuery/jquery.min.js" type="text/javascript"></script>
+    <script src="../Include2/jQuery/jquery.maskedinput-1.1.4.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="../Include2/SiteSefaz.Utils.js"></script>
+	
+    <script language="javascript" type="text/javascript" src="../Include2/js_ajax_busca.js"></script>
+    
+
+    <script type="text/javascript" >        //<![CDATA[
+    
+        function updateIFrame(height) {
+                    
+            //alert( 'Atualizando IFrame height para '+ height );
+            try {
+                var iframe = document.getElementById("iframeConteudo");
+                iframe.style.height = height + 'px';
+                
+                //Arruma a transparencia do iframe!
+                frameElem.allowTransparency = true; /* IE only */
+                frameElem.style.backgroundColor = 'transparent';
+            }
+            catch (oErro) { }
+            finally { }
+            
+        }
+
+        function SubmeteBusca() {
+
+            var pChave = document.getElementById("txtBusca").value;
+            if (pChave.length < 2) {
+                alert("Informe no mínimo 2 caracteres para a busca.");
+                return false;
+            }
+            //alert("!" + document.getElementById("txtBusca").value + "!")
+            document.frmPesquisa.txtPalavraBusca.value = document.getElementById("txtBusca").value;
+            document.frmPesquisa.submit();
+            //location.href = "../Site/Busca.aspx?txtPalavraBusca=" + document.getElementById("txtPalavraBusca").value;
+        }
+
+        function SubmeteCombo(combo) {
+            if (combo.value != "") {
+                location.href = combo.value;
+            }
+        }
+
+        function tecla_enterCadastro(e) {
+            var e = (e) ? e : event;
+            if (e.keyCode == 13) {
+                SubmeteCadastro();
+            }
+        }
+
+        function tecla_enterBusca(e) {
+            var e = (e) ? e : event;
+            if (e.keyCode == 13) {
+                SubmeteBusca();
+            }
+        }
+
+
+        function SubmeteCadastro() {
+
+            var Cnpj = document.getElementById("txtCnpj").value;
+            var Cgcte = document.getElementById("txtCgcte").value;			    
+				
+            if (Cnpj == "" && Cgcte == "") {
+                alert("Informe o CNPJ ou a Inscrição Estadual para consultar o contribuinte.");
+                return false;
+            }
+            if (Cnpj != "" && Cgcte != "") {
+                alert("Informe apenas o CNPJ ou a Inscrição Estadual.");
+                return false;
+            }
+            if (Cnpj != "") {
+                if (isNaN(Cnpj)) {
+                    alert("CNPJ deve ser numérico");
+                    return false;
+                }
+                if ((Cnpj.indexOf(".") >= 0) || (Cnpj.indexOf("+") >= 0) || (Cnpj.indexOf("-") >= 0) || (Cnpj.indexOf(" ") >= 0)) {
+                    alert("CNPJ apresenta caracteres inválidos");
+                    return false;
+                }
+            } else {
+                if (isNaN(Cgcte)) {
+                    alert("Inscrição Estadual deve ser numérica");
+                    return false;
+                }
+                if ((Cgcte.indexOf(".") >= 0) || (Cgcte.indexOf("+") >= 0) || (Cgcte.indexOf("-") >= 0) || (Cgcte.indexOf(" ") >= 0)) {
+                    alert("Inscrição Estadual apresenta caracteres inválidos");
+                    return false;
+                }
+            }
+            document.frmCadastro.txtCgcte.value = Cgcte;
+            document.frmCadastro.txtCnpj.value = Cnpj;
+            document.frmCadastro.action = "../Site/ConsultaContribuinte.aspx"
+            document.frmCadastro.submit();
+
+
+            //document.form1.submit;
+            return true;
+        }
+
+        var switchRecExpML = false;
+
+        function RecExpML() { 
+            
+            if (switchRecExpML){
+                jQuery("#painelControle").css('display','block');
+                jQuery("#tdMenuLateralEsq").css('width','206px');
+                jQuery("#imgRecExpML").attr('src','../Imagens/RecolheLateral1.png');
+                jQuery("#divBtnRecolher").css('left','201px');
+                jQuery("#imgRecExpML").attr('title','Recolher');
+                gravaCookie("LayoutTrans", "False");
+            } else {
+                jQuery("#painelControle").css('display','none');
+                jQuery("#tdMenuLateralEsq").css('width','0px');
+                jQuery("#imgRecExpML").attr('src','../Imagens/RecolheLateral2.png');
+                jQuery("#divBtnRecolher").css('left','0px');
+                jQuery("#imgRecExpML").attr('title','Expandir');
+                gravaCookie("LayoutTrans", "True");
+            }
+            switchRecExpML = !switchRecExpML;
+        }
+    
+    
+        function atualizaAreaInfoLoginSuccess(dados) {
+            jQuery("#areaInfoLogin").html(dados);
+        }
+
+        function atualizaAreaInfoLogin() {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "../Login/InfoLogin.aspx?exibirLayoutAntigo=",
+                dataType: "text",
+                success: atualizaAreaInfoLoginSuccess
+            });
+        }
+
+    
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-2698405-1']);
+        _gaq.push(['_setDomainName', 'sefaz.rs.gov.br']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        //]]></script>
+        
+        
+  
+<script language="javascript" src="../ASP/include/ValidaCNPJ.js?nocache=636396174501595456"></script>
+<style type="text/css">
+    .BordaVemelha {
+    
+        border: 1px solid red !important;
+    }
+    
+    .TituloFiltro { 
+        background-color: #E7EAEC; 
+        font-weight: bold; 
+        color: #006D8E; 
+        font-size: 11px;
+        padding:2px;
+        padding-left:10px
+    } 
+    
+    .FiltroConsulta td {
+        padding-left:10px;
+    }
+    
+    .BotaoPesquisaCCC {
+        background-image: url('../../imagens/lupa.gif'); 
+        background-color:white; 
+        background-repeat: no-repeat; 
+        background-position:center; 
+        padding:2px; 
+        width: 25px;    
+    }
+    .ContornoInput {
+    
+        width:200px; 
+        height: 22px; 
+        border:solid 1px #999999; 
+        -moz-border-radius: 3px; 
+        border-radius: 3px;
+        padding-left:2px;
+    }
+</style>
+
+<script type="text/javascript">
+
+        function pesquisaContribuinte() {
+
+            var uf = $("#ctl00_cphConteudo_cmbUF").val();
+            var cnpj8 = $("#tbxCNPJContrib").val();
+            var ambiente = $('input[name=rdoAmbiente]:checked').val();
+            
+            var params = $.param({
+                            'cnpj8': cnpj8,
+                            'uf': uf,
+                            'ambiente': ambiente});
+
+            window.open('NFE-CCC_Lookup.aspx?' + params, 'winPesquisa', 'top=20,left=50,width=850,height=620,scrollbars=yes,resizable=yes');
+        }
+         
+        function selecionaEmpresa(cnpj8, uf, ambiente)
+        { 
+            $("#tbxCNPJContrib").val(cnpj8);
+            $("#tbxIeContrib").val("");
+            $("#ctl00_cphConteudo_cmbUF").val(uf);
+            $('input[name=rdoAmbiente]').attr('checked', false);
+
+            if (ambiente == '2') {
+
+                $('#rdoAmbienteHomologacao').attr('checked', true);
+            }
+            else {
+                $('#rdoAmbienteProducao').attr('checked', true);
+            } 
+        }
+
+        function validaDados()
+        {
+            var iCodUf = $('[id=ctl00_cphConteudo_cmbUF]').val();
+            var lCnpj8 = $('[id=tbxCNPJContrib]').val();
+            var pAmbiente = $('[name=rdoAmbiente]:checked').val();
+            var lIe = $("#tbxIeContrib").val();
+
+            if ($.trim(lCnpj8) == "" && $.trim(lIe) == "")
+            {
+                alert("Informar o CNPJ ou a IE do estabelecimento.");
+                return false;
+            }
+
+
+            
+
+
+            if ($("#captchaCode").length) {
+                if ($("#captchaCode").val().length == 0)
+                {
+                    alert("Por favor informe os caracteres que aparecem no quadro!");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+     
+        function preencheParametros(filtro)
+        { 
+            if (!validaDados()) {
+                return;
+            }
+
+            var iCodUf = $('[id=ctl00_cphConteudo_cmbUF]').val();
+            var lCnpj = $.trim($('[id=tbxCNPJContrib]').val());
+            var pAmbiente = $('[name=rdoAmbiente]:checked').val();
+            var lIe = $.trim($("#tbxIeContrib").val());
+
+            var dadosPOST = "";
+            dadosPOST += "iCodUf=" + iCodUf;
+
+            //Validação de origem.
+            dadosPOST += "&key=FQ+i3D7UZanBCaUTURUP1+t1bEp7AGN+QlQc+s1SML8=";
+
+            if (filtro.toUpperCase() == "IE") {
+
+
+                if (lIe.length < 2)
+                {
+                    alert("IE com tamanho inválido.");
+                    return;
+                }
+
+                if (iCodUf < 1)
+                {
+                    alert("Selecione uma UF.");
+                    return;
+                }
+
+                if (ieEmAnalise)
+                {
+                  //  alert('Aguarde, o IE está sendo validado.');
+                    enviarAposValidacaoIE = true;
+                    return;
+                }
+
+                if (!ieValido)
+                {
+                    alert("O IE é inválido para a UF selecionada.");
+                    return;
+                }
+
+                dadosPOST += "&lIe=" + lIe;
+
+                $('[id=tbxCNPJContrib]').css("color", "#CCC");
+                $('#tbxIeContrib').css("color", "#000");
+            }
+            else {
+                
+                if (lCnpj.length == 0)
+                {
+                    alert("Informe um CNPJ.");
+                    return;
+                }
+
+                if (!trataValidacaoCNPJ())
+                {
+                    return;
+                }
+                dadosPOST += "&lCnpj=" + lCnpj;
+
+                $("#tbxIeContrib").css("color", "#CCC");
+                $('#tbxCNPJContrib').css("color", "#000");
+            }
+
+            if ($("#captchaCode").length && $("#captchaRdnKey").length) {
+                dadosPOST += "&captchaCode=" + $("#captchaCode").val();
+                dadosPOST += "&captchaRdnKey=" + $("#captchaRdnKey").val();
+            }
+
+            dadosPOST += "&pAmbiente=" + pAmbiente;
+         
+            MostraAreaProcessando();
+            
+            jQuery.ajax({
+                type: "POST",
+                url: "NFE-CCC_DO.aspx",
+                data: dadosPOST,
+                dataType: "html",
+                success: ResultadoSuccess,
+                error: ResultadoError
+            });
+        }
+
+        // Função executada quando o ajax da consulta é processado sem erros
+        function ResultadoSuccess(dados) {
+
+            //var DadosRetorno = dados.getElementsByTagName('DadosRetorno')[0].firstChild.data;
+            jQuery("#conteudoResult").html(dados);
+            exibeResultado();
+        }
+
+        // Função executada quando o ajax da consulta é processado com pelo menos um erro
+        function ResultadoError(jqXHR, textStatus, errorThrown) {
+
+            alert("Ocorreu um erro inesperado. Não foi possível executar a transação. \nStatus:" + textStatus + "\nDescrição:" + errorThrown);
+            ocultaResultado();
+            ocultaAreaProcessando();
+        }
+        
+        //mostra as abas sob demanda
+        function mostraAba(num) {
+            jQuery('.nft').hide(); //OK
+            jQuery('#botoes_nft li').removeClass('nftselected'); //OK
+            jQuery('#aba_nft_' + num).show(); //OK
+            jQuery('#tab_' + num).addClass('nftselected');
+        }
+
+        // Função utilizada para esconder a div que exibe a imagem "carregando"
+        function ocultaAreaProcessando() {
+            jQuery("#areaProcessando").css("display", "none");
+            jQuery("#areaProcessando").css("visibility", "hidden");
+        }
+
+        // Função utilizada para exibir a div que contém a imagem "carregando"
+        function MostraAreaProcessando() {
+            ocultaResultado();
+            jQuery("#areaProcessando").css("display", "block");
+            jQuery("#areaProcessando").css("visibility", "visible");
+        }
+
+        // Função utilizada para mostrar a div com o resultado da consulta
+        function exibeResultado() {
+            ocultaAreaProcessando();
+            jQuery("#fieldSetResult").css("display", "block");
+            jQuery("#fieldSetResult").css("visibility", "visible");
+        }
+
+        // Função utilizada para esconder a div que exibe o resultado da consulta
+        function ocultaResultado() {
+            jQuery("#fieldSetResult").css("display", "none");
+            jQuery("#fieldSetResult").css("visibility", "hidden");
+        }
+
+        $(document).ready(function () {
+
+            if (($("#captchaCode").length && $("#captchaRdnKey").length))
+            {
+                $("#captchaArea").show();
+            }
+
+
+            $("#toogleFiltro").click(function () {
+                $("#filtro, #texto").slideToggle("slow", function () {
+                    if ($(this).is(":hidden")) {
+
+                        $("#toogleFiltro").html("+ Cadastro Centralizado de Contribuinte (CCC)");
+                    }
+                    else {
+                        $("#toogleFiltro").html("- Cadastro Centralizado de Contribuinte (CCC)");
+                    }
+                });
+            });
+
+            $('.apenasNumeros').mouseleave(function () {
+                if (this.value != this.value.replace(/[^0-9]/g, '')) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                }
+            });
+
+            $('#tbxCNPJContrib').focus(function () {
+                $('#tbxCNPJContrib').css("color", "#000");
+                $('#tbxIeContrib').css("color", "#CCC");
+            });
+
+            $('#tbxCNPJContrib').keyup(function (e) {
+ 
+                if (e.which == 13) {
+                    preencheParametros('CNPJ')
+                }
+                else
+                {
+                    if (this.value != this.value.replace(/[^0-9]/g, '')) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    }
+                }
+            });
+
+            $('#tbxIeContrib').focus(function () {
+                $('#tbxIeContrib').css("color", "#000");
+                $('#tbxCNPJContrib').css("color", "#CCC");
+            });
+
+            $('#tbxIeContrib').keyup(function (e) {
+
+
+                if (e.which == 13) {
+                    preencheParametros('IE')
+                    return;
+                }
+                else
+                {
+                    if (this.value != this.value.replace(/[^0-9]/g, '')) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    }
+                }
+            });
+
+
+            $("#ctl00_cphConteudo_cmbUF").change(function () {
+
+                trataValidacaoIE();
+             });
+
+
+            $("input[name=rdoAmbiente]").change(function () {
+                
+                var pAmbiente = $('[name=rdoAmbiente]:checked').val();
+                $("#CarregandoUFConveniada").show();
+                $('[id=ctl00_cphConteudo_cmbUF]').hide();
+
+                $.ajax({
+                    url: "UfConveniadaCCC.ashx",
+                    data: "sAmbienteConsultaCCC=" + pAmbiente,
+                    cache: false
+                        
+                }).done(function (html) {
+                    $('[id=ctl00_cphConteudo_cmbUF]').html(html);
+                    $("#CarregandoUFConveniada").hide();
+                    $('[id=ctl00_cphConteudo_cmbUF]').show();
+
+                    trataValidacaoIE();
+                });
+            });
+
+            $("#tbxCNPJContrib").blur(function () {
+                
+                trataValidacaoCNPJ();
+            });
+
+            $("#tbxIeContrib").blur(function () {
+
+                trataValidacaoIE();
+            });
+        });
+
+        function trataValidacaoCNPJ()
+        {
+            var cnpj = $.trim($("#tbxCNPJContrib").val());
+
+            //CNPJ 14
+            if (cnpj.length > 8) {
+                //Se o CNPJ é maior que 8, porém menor que 8, devemos prencher com 0's mais a esquerda.
+                if (cnpj.length < 14) {
+                    var esq = "";
+                    for (i = 0; i < 14 - cnpj.length; i++) {
+                        esq += "0"
+                    }
+                    cnpj = esq + cnpj;
+                    $("#tbxCNPJContrib").val(cnpj);
+                }
+
+                if (!ValidarCNPJ((cnpj))) {
+                 
+                    $("#msgErroCnpj").html("O CNPJ informado é inválido.");
+                    $("#ContornoCnpj").css("border-color", "red");
+                    return false;
+                }
+                else {
+                    $("#msgErroCnpj").html("");
+                    $("#ContornoCnpj").css("border-color", "#999999");
+                } 
+                return true;
+            }
+            else {
+                $("#msgErroCnpj").html("");
+                $("#ContornoCnpj").css("border-color", "#999999");
+            }
+
+            if (cnpj.length > 0 && cnpj.length < 3) {
+                alert("Informe pelo menos 3 caracteres para consultar o CNPJ.");
+                return false;
+            }
+            return true;
+        } 
+     
+        var ieValido = false;
+        var ieEmAnalise = false;
+        var enviarAposValidacaoIE = false;
+
+        function trataValidacaoIE() {
+
+            var ie = $.trim($("#tbxIeContrib").val());
+            var uf = $.trim($("#ctl00_cphConteudo_cmbUF").val());
+
+
+            if (ie.length >= 2) {
+
+                ieEmAnalise = true;
+
+                $("#DivValidandoIE").show();
+
+                $.ajax({
+                    url: "NFE-ValidacaoServidor.aspx",
+                    data: "Ie=" + ie + "&Uf=" + uf,
+                    cache: false 
+                }).done(function (result) {
+
+                    try {
+                        var obj = jQuery.parseJSON(result);
+                        ieEmAnalise = false;
+                        $("#DivValidandoIE").hide(); 
+                        if (obj.valido) {
+                            $("#msgErroIe").html("");
+                            $("#ContornoIe").css("border-color", "#999999");
+                            ieValido = true;
+
+                            if (enviarAposValidacaoIE)
+                            {
+                                enviarAposValidacaoIE = false;
+                                preencheParametros("IE");
+                            } 
+                        }
+                        else {
+                            $("#msgErroIe").html(obj.erro);
+                            $("#ContornoIe").css("border-color", "red");
+                            ieValido = false;
+                        }
+                    }
+                    catch (ex) {
+                        //console.log("Ocorreu um erro." + ex);
+                    } 
+                });
+
+            }
+            else if (ie.length < 2 && ie.length > 0)
+            {
+                $("#msgErroIe").html("IE com tamanho inválido.");
+                $("#ContornoIe").css("border-color", "red");
+            }
+            else
+            {
+                $("#msgErroIe").html("");
+                $("#ContornoIe").css("border-color", "#999999");
+            } 
+        }
+
+</script>
+</head>
+<body>
+    <!--
+    SRVPRO972
+    -->
+    <div id="areaInfoLogin"><script charset="ISO-8859-1"  src="../Include2/ValidaCGCTE.js" type="text/javascript"></script>
+<script charset="ISO-8859-1"  src="../ASP/Include/AjudaMunicipio.js" type="text/javascript"></script>
+<script charset="ISO-8859-1" type="text/javascript">
+/* Lista com todos os vínculos do usuário Logado */
+function Vinculo(ie, cnpj14, razaoSocial, nomeFantasia, situacao, vinculo, cnpj8, sitAe, sitPe, AePainel) { this.ie = ie; this.cnpj14 = cnpj14; this.razaoSocial = razaoSocial; this.nomeFantasia = nomeFantasia; this.situacao = situacao; this.vinculo = vinculo; this.cnpj8 = cnpj8; this.sitAe = sitAe;this.sitPe = sitPe; this.AePainel = AePainel; }
+var aVinculos = new Array();
+</script>
+<script charset="UTF-8" src="../Include2/infologin.js" type="text/javascript"></script>
+<link href="../Estilos/nfe-vis.css" type="text/css" rel="stylesheet" />
+</div>
+    <div 
+    
+    id="centroEcac"
+    
+    >
+    <form name="aspnetForm" method="post" action="NFE-CCC.aspx?Captcha=true" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJOTQzNjk4ODAwD2QWAmYPZBYGZg9kFgICBQ8VAgVmYWxzZQBkAgEPFQIJU1JWUFJPOTcy3AY8c2NyaXB0IGNoYXJzZXQ9IklTTy04ODU5LTEiICBzcmM9Ii4uL0luY2x1ZGUyL1ZhbGlkYUNHQ1RFLmpzIiB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPjwvc2NyaXB0Pg0KPHNjcmlwdCBjaGFyc2V0PSJJU08tODg1OS0xIiAgc3JjPSIuLi9BU1AvSW5jbHVkZS9BanVkYU11bmljaXBpby5qcyIgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij48L3NjcmlwdD4NCjxzY3JpcHQgY2hhcnNldD0iSVNPLTg4NTktMSIgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij4NCi8qIExpc3RhIGNvbSB0b2RvcyBvcyB2w61uY3Vsb3MgZG8gdXN1w6FyaW8gTG9nYWRvICovDQpmdW5jdGlvbiBWaW5jdWxvKGllLCBjbnBqMTQsIHJhemFvU29jaWFsLCBub21lRmFudGFzaWEsIHNpdHVhY2FvLCB2aW5jdWxvLCBjbnBqOCwgc2l0QWUsIHNpdFBlLCBBZVBhaW5lbCkgeyB0aGlzLmllID0gaWU7IHRoaXMuY25wajE0ID0gY25wajE0OyB0aGlzLnJhemFvU29jaWFsID0gcmF6YW9Tb2NpYWw7IHRoaXMubm9tZUZhbnRhc2lhID0gbm9tZUZhbnRhc2lhOyB0aGlzLnNpdHVhY2FvID0gc2l0dWFjYW87IHRoaXMudmluY3VsbyA9IHZpbmN1bG87IHRoaXMuY25wajggPSBjbnBqODsgdGhpcy5zaXRBZSA9IHNpdEFlO3RoaXMuc2l0UGUgPSBzaXRQZTsgdGhpcy5BZVBhaW5lbCA9IEFlUGFpbmVsOyB9DQp2YXIgYVZpbmN1bG9zID0gbmV3IEFycmF5KCk7DQo8L3NjcmlwdD4NCjxzY3JpcHQgY2hhcnNldD0iVVRGLTgiIHNyYz0iLi4vSW5jbHVkZTIvaW5mb2xvZ2luLmpzIiB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPjwvc2NyaXB0Pg0KPGxpbmsgaHJlZj0iLi4vRXN0aWxvcy9uZmUtdmlzLmNzcyIgdHlwZT0idGV4dC9jc3MiIHJlbD0ic3R5bGVzaGVldCIgLz4NCmQCAg9kFgYCAQ8UKwICZAUDOTcyZAICDxUCkyg8c2VsZWN0IGNsYXNzPSJmb3JtZSIgb25jaGFuZ2U9IlN1Ym1ldGVDb21ibyh0aGlzKTsiIHN0eWxlPSJ3aWR0aDogMTcwcHgiPg0KPG9wdGlvbiB2YWx1ZT0iIj5CdXNjYXIgcG9yIEFzc3VudG88L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9IiI+X19fX19fX19fX19fX19fX19fX19fX19fPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9haWRmIj5BSURGPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9hcHVyYWNhb19jZW5zb3MiPkFwdXJhw6fDo28gZGUgQ2Vuc29zIC0gSVBNIGUgUElUPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9hbGYiPkF1dGVudGljYcOnw6NvIGRlIExpdnJvcyBGaXNjYWlzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jYWQiPkNhZGFzdHJvIGRlIENvbnRyaWJ1aW50ZXM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2NhZGluIj5DQURJTi9SUyAtIENhZGFzdHJvIEluZm9ybWF0aXZvPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jZHMiPkNhcnRhIGRlIFNlcnZpw6dvczwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fY2VydGlkb2VzIj5DZXJ0aWTDtWVzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jZmlsIj5DRklML1JTIC0gQ2FkYXN0cm8gZGUgRm9ybmVjZWRvcmVzIEltcGVkaWRvcyBkZSBMaWNpdGFyPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jc2MiPkNvbXBlbnNhw6fDo28gZGUgU2FsZG8gQ3JlZG9yPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jb25jdXJzbyI+Q29uY3Vyc29zPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jdGUiPkNvbmhlY2ltZW50byBkZSBUcmFuc3BvcnRlIEVsZXRyw7RuaWNvPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jb252Ij5Db252w6puaW9zPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9jb25Gb3JtYWwiPkNvbnN1bHRhIEZvcm1hbDwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZGFkb3NBYmVydG9zUkUiPkRhZG9zIEFiZXJ0b3MgUmVjZWl0YSBFc3RhZHVhbDwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZGViX3BhcmMiPkTDqWJpdG9zIGUgUGFyY2VsYW1lbnRvPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kZW51bmNpYSI+RGVuw7puY2lhIGRlIFNvbmVnYcOnw6NvPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kZXNvIj5EZXNvbmVyYcOnw7VlcyBGaXNjYWlzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kZXZfdHJpYiI+RGV2b2x1w6fDo28gZGUgVHJpYnV0b3M8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2Rpc3BfcGd0byI+RGlzcGVuc2EgUGFnYW1lbnRvIEZhdG8gR2VyYWRvcjwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZGlzcG1vdmVpc193YXAiPkRpc3Bvc2l0aXZvcyBNw7N2ZWlzIGUgV0FQPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kb21fdHJpYl9lbGV0cm8iPkRvbWljw61saW8gVHJpYnV0w6FyaW8gRWxldHLDtG5pY288L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2VjZiI+RUNGIC0gRW1pc3NvciBkZSBDdXBvbSBGaXNjYWw8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2VmZCI+RUZEIC0gRXNjcml0dXJhw6fDo28gRmlzY2FsIERpZ2l0YWw8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2VtZW5kX2NvbnN0Xzg3Ij5FbWVuZGEgQ29uc3RpdHVjaW9uYWwgODcvMjAxNTwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvRkNJaW5kZXguYXNweCI+RkNJIC0gRmljaGEgZGUgQ29udGXDumRvIGRlIEltcG9ydGHDp8Ojbzwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZmluYW5fZXN0YWQiPkZpbmFuw6dhcyBFc3RhZHVhaXM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2dpYSI+R0lBIC0gR3VpYSBkZSBJbmZvcm1hw6fDo28gZSBBcHVyYcOnw6NvIGRvIElDTVM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2dpX21vZGFiIj5HdWlhIEluZm9ybWF0aXZhIEFudWFsIE1vZGVsb3MgQSBlIEI8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2ljbXMiPklDTVM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2ltcG9ydGFjYW8iPkltcG9ydGHDp8Ojbzwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1faXB2YSI+SVBWQTwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1faXRjZCI+SVRDRDwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fbGVnaXMiPkxlZ2lzbGHDp8Ojbzwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fbGljaSI+TGljaXRhw6fDtWVzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvTkZFL05GRWluZGV4LmFzcHgiPk5vdGEgRmlzY2FsIEVsZXRyw7RuaWNhPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9uZmciPk5vdGEgRmlzY2FsIEdhw7pjaGE8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3BhZ3RvIj5QYWdhbWVudG8gZGUgVHJpYnV0b3MgKEd1aWEgZGUgQXJyZWNhZGHDp8Ojbyk8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3BndG9fZXN0YWRvIj5QYWdhbWVudG9zIGRvIEVzdGFkbzwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fcHJvY19wYXV0YSI+UGF1dGFzIFRBUkYgLSBUcmlidW5hbCBBZG1pbmlzdHJhdGl2byBkZSBSZWN1cnNvcyBGaXNjYWlzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9ycHZwcmUiPlByZWNhdMOzcmlvcyBlIFJQViAtIFJlcXVpc2nDp8OjbyBkZSBQZXF1ZW5vIFZhbG9yPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9wcm9nX3Byb2oiPlByb2dyYW1hcyBlIFByb2pldG9zPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9wdWJsaWNfZXN0YXQiPlB1YmxpY2HDp8O1ZXMgZSBFc3RhdMOtc3RpY2FzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9zZXJ2X3RlcmMiPlNlcnZpw6dvcyBUZXJjZWlyaXphZG9zPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9zaW1wbGVzX25hY2lvbmFsIj5TaW1wbGVzIE5hY2lvbmFsPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9zaW50ZWdyYSI+U0lOVEVHUkE8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3N1YnN0X3RyaWIiPlN1YnN0aXR1acOnw6NvIFRyaWJ1dMOhcmlhPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV90YXhhcyI+VGF4YXM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2Rvd25sb2FkX3RlZCI+VEVEIC0gVHJhbnNtaXNzw6NvIEVsZXRyw7RuaWNhIGRlIERvY3VtZW50b3M8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3RzYyI+VHJhbnNmZXLDqm5jaWEgU2FsZG8gQ3JlZG9yIElDTVM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhQXJxdWl2by5hc3B4P2FsPWxfaWNtc190cmFuc19iZW5zIj5UcmFuc3BvcnRlIGRlIGJlbnMgcG9yIG7Do28gY29udHJpYnVpbnRlcyAtIEluZm9ybWHDp8OjbyBkZSBjYXLDoXRlciBnZXJhbDwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fdmVyX2F1dCI+VmVyaWZpY2HDp8OjbyBkZSBBdXRlbnRpY2lkYWRlPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV93ZWJzZXJ2aWNlcyI+V2ViIFNlcnZpY2VzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kdXZpZGFzX2ZyZXF1ZW50ZXMiPkTDunZpZGFzIEZyZXF1ZW50ZXM8L29wdGlvbj4NCg0KPC9zZWxlY3Q+DQqbDTxzZWxlY3QgY2xhc3M9ImZvcm1lIiBvbmNoYW5nZT0iU3VibWV0ZUNvbWJvKHRoaXMpOyIgc3R5bGU9IndpZHRoOiAxNzBweCI+DQo8b3B0aW9uIHZhbHVlPSIiPkJ1c2NhciBwb3IgUMO6YmxpY28gQWx2bzwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iIj5fX19fX19fX19fX19fX19fX19fX19fX188L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2FkbV9jYXJ0YW9fY3JlZGl0byI+QWRtaW5pc3RyYWRvcmFzIGRlIENhcnTDo28gZGUgQ3LDqWRpdG88L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2Fkdm9nYWRvcyI+QWR2b2dhZG9zIC8gRGVmZW5zb3JlcyBQw7pibGljb3M8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2NvbnRhYl9jb250YWRvciI+Q29udGFiaWxpc3RhIC8gQ29udGFkb3I8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2NpZGFkYW8iPkNvbnRyaWJ1aW50ZSBQZXNzb2EgRsOtc2ljYTwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZW1wcmVzYSI+Q29udHJpYnVpbnRlIFBlc3NvYSBKdXLDrWRpY2E8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2NyZWRfZWNmIj5DcmVkZW5jaWFkYXMgRUNGPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9kZXNwYWR1YW5hX2ltcCI+RGVzcGFjaGFudGUgQWR1YW5laXJvIC8gSW1wb3J0YWRvcjwvb3B0aW9uPg0KPG9wdGlvbiB2YWx1ZT0iL1NpdGUvTW9udGFNZW51LmFzcHg/TWVudUFsaWFzPW1fZm9ybmVjZWRvcmVzIj5Gb3JuZWNlZG9yZXM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2Z1bmMiPkZ1bmNpb27DoXJpb3MgU0VGQVo8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX2dyYWZpY2FzIj5HcsOhZmljYXM8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX29yZ19wdWJfZXN0Ij7Dk3Jnw6NvcyBQw7pibGljb3MgRXN0YWR1YWlzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9tdW5pY2lwaW8iPlByZWZlaXR1cmFzPC9vcHRpb24+DQo8b3B0aW9uIHZhbHVlPSIvU2l0ZS9Nb250YU1lbnUuYXNweD9NZW51QWxpYXM9bV9wcm9kdXRvcl9ydXJhbCI+UHJvZHV0b3IgUnVyYWw8L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3JlY2ludG9fYWxmYW5kZWdhZG8iPlJlY2ludG8gQWxmYW5kZWdhZG88L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3NlcnZpZG9ycHVibGljbyI+U2Vydmlkb3IgUMO6YmxpY288L29wdGlvbj4NCjxvcHRpb24gdmFsdWU9Ii9TaXRlL01vbnRhTWVudS5hc3B4P01lbnVBbGlhcz1tX3RhYmVsaW9uYXRvcyI+VGFiZWxpb25hdG9zPC9vcHRpb24+DQoNCjwvc2VsZWN0Pg0KZAIDD2QWBGYPFCsCAmQF3QQ8ZGl2IGlkPSJ2b2x0YXIiIGNsYXNzPSJ2b2x0YXIiPjxhIGhyZWY9ImphdmFzY3JpcHQ6aGlzdG9yeS5iYWNrKC0xKSI+Vm9sdGFyPC9hPjwvZGl2Pg0KPGRpdiBpZD0iaW1wcmltaXIiIGNsYXNzPSJpbXByaW1pciI+PGEgaHJlZj0iamF2YXNjcmlwdDpBYnJlSmFuZWxhKCcuLi9TaXRlL0ltcHJpbWlyLmFzcHgnLCcnLDc2MCw0NTAsLTEsLTEsLTEsLTEsMSwtMSk7dm9pZCgwKTsiPkltcHJpbWlyPC9hPjwvZGl2Pg0KPGRpdiBpZD0iYU1lbm9zIiBjbGFzcz0iYU1lbm9zIj48YSBocmVmPSJqYXZhc2NyaXB0OnRhbVRleHRvKCdEJywncGFpbmVsQ29udGV1ZG8nKTt2b2lkKDApOyI+QS08L2E+PC9kaXY+DQo8ZGl2IGlkPSJhTWFpcyIgY2xhc3M9ImFNYWlzIj48YSBocmVmPSJqYXZhc2NyaXB0OnRhbVRleHRvKCdBJywncGFpbmVsQ29udGV1ZG8nKTt2b2lkKDApOyI+QSs8L2E+PC9kaXY+DQo8ZGl2IGlkPSJlbnZpYXIiIGNsYXNzPSJlbnZpYXIiPjxhIGhyZWY9ImphdmFzY3JpcHQ6QWJyZUphbmVsYSgnLi4vU2l0ZS9FbnZpYXJQYXJhLmFzcHgnLCcnLDU2MCwzMTgsLTEsLTEsLTEsLTEsLTEsLTEpO3ZvaWQoMCk7Ij5FbnZpYXIgcGFyYS4uLjwvYT48L2Rpdj4NCmQCAQ9kFgJmDxAPFgIeC18hRGF0YUJvdW5kZ2QPFhxmAgECAgIDAgQCBQIGAgcCCAIJAgoCCwIMAg0CDgIPAhACEQISAhMCFAIVAhYCFwIYAhkCGgIbFhwQBQVUb2RhcwUBMGcQBQcxMiAtIEFDBQIxMmcQBQcyNyAtIEFMBQIyN2cQBQcxMyAtIEFNBQIxM2cQBQcxNiAtIEFQBQIxNmcQBQcyOSAtIEJBBQIyOWcQBQcyMyAtIENFBQIyM2cQBQc1MyAtIERGBQI1M2cQBQczMiAtIEVTBQIzMmcQBQc1MiAtIEdPBQI1MmcQBQcyMSAtIE1BBQIyMWcQBQczMSAtIE1HBQIzMWcQBQc1MCAtIE1TBQI1MGcQBQc1MSAtIE1UBQI1MWcQBQcxNSAtIFBBBQIxNWcQBQcyNSAtIFBCBQIyNWcQBQcyNiAtIFBFBQIyNmcQBQcyMiAtIFBJBQIyMmcQBQc0MSAtIFBSBQI0MWcQBQczMyAtIFJKBQIzM2cQBQcyNCAtIFJOBQIyNGcQBQcxMSAtIFJPBQIxMWcQBQcxNCAtIFJSBQIxNGcQBQc0MyAtIFJTBQI0M2cQBQc0MiAtIFNDBQI0MmcQBQcyOCAtIFNFBQIyOGcQBQczNSAtIFNQBQIzNWcQBQcxNyAtIFRPBQIxN2dkZGSQTu52LZKH/D5QWP326xkdprbj2w==" />
+</div>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="64B724C2" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWHQLsrYKIBAKp/v6dDAK2/raeDAK3/pqeDAK2/oqeDAK2/oaeDAK3/tKdDAK3/oqeDAKy/oqeDAK0/raeDAKy/raeDAK3/rKeDAK0/rKeDAKy/r6eDAKy/rKeDAK2/oKeDAK3/oKeDAK3/oaeDAK3/raeDAK1/rKeDAK0/oqeDAK3/o6eDAK2/rKeDAK2/o6eDAK1/oqeDAK1/raeDAK3/t6dDAK0/oKeDAK2/pqeDGYaHFAq8yuZXQU+lLoxHWoZZX2Z" />
+</div>
+    
+        <!-- A div centro estrutura o conteudo no centro da tela, independente da resolução //-->
+        <!-- A div superior estrutura os links, forms e ilustrações na parte superior do Portal //-->
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        
+            <tr>
+                <td>
+                   <div style="width:8px;left:0px;top:215px;position: absolute; z-index: 10000;" id="divBtnRecolher">
+                   
+                   </div>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td id="tdMenuLateralEsq" style="width: 0px; vertical-align: top;">
+                                <!-- a div painelControle é um sistema de atalhos para todos os serviços e informações do portal//-->
+                                <div  style="display:none;" id="painelControle"   >
+                                    <div class="escopo1" >
+                                        <ul >
+                                            <li style="width:170px;"><a href="../Site/MontaMenu.aspx?MenuAlias=m_cidadao">Cidadão</a></li>
+                                            <li style="width:170px;"><a href="../Site/MontaMenu.aspx?MenuAlias=m_empresa">Empresa</a></li>
+                                            <li style="width:170px;"><a href="../Site/MontaMenu.aspx?MenuAlias=m_municipio">Município</a></li>
+                                            <li style="width:170px;"><a href="../Site/Transparencia.aspx">Transparência Fiscal</a></li>
+                                        </ul>
+                                    </div>
+                                    <div id="atalhos">
+                                        <div class="comboAtalho">
+                                            <select class="forme" onchange="SubmeteCombo(this);" style="width: 170px">
+<option value="">Buscar por Assunto</option>
+<option value="">________________________</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_aidf">AIDF</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_apuracao_censos">Apuração de Censos - IPM e PIT</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_alf">Autenticação de Livros Fiscais</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cad">Cadastro de Contribuintes</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cadin">CADIN/RS - Cadastro Informativo</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cds">Carta de Serviços</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_certidoes">Certidões</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cfil">CFIL/RS - Cadastro de Fornecedores Impedidos de Licitar</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_csc">Compensação de Saldo Credor</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_concurso">Concursos</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cte">Conhecimento de Transporte Eletrônico</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_conv">Convênios</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_conFormal">Consulta Formal</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_dadosAbertosRE">Dados Abertos Receita Estadual</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_deb_parc">Débitos e Parcelamento</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_denuncia">Denúncia de Sonegação</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_deso">Desonerações Fiscais</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_dev_trib">Devolução de Tributos</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_disp_pgto">Dispensa Pagamento Fato Gerador</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_dispmoveis_wap">Dispositivos Móveis e WAP</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_dom_trib_eletro">Domicílio Tributário Eletrônico</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_ecf">ECF - Emissor de Cupom Fiscal</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_efd">EFD - Escrituração Fiscal Digital</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_emend_const_87">Emenda Constitucional 87/2015</option>
+<option value="/Site/FCIindex.aspx">FCI - Ficha de Conteúdo de Importação</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_finan_estad">Finanças Estaduais</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_gia">GIA - Guia de Informação e Apuração do ICMS</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_gi_modab">Guia Informativa Anual Modelos A e B</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_icms">ICMS</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_importacao">Importação</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_ipva">IPVA</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_itcd">ITCD</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_legis">Legislação</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_lici">Licitações</option>
+<option value="/NFE/NFEindex.aspx">Nota Fiscal Eletrônica</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_nfg">Nota Fiscal Gaúcha</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_pagto">Pagamento de Tributos (Guia de Arrecadação)</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_pgto_estado">Pagamentos do Estado</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_proc_pauta">Pautas TARF - Tribunal Administrativo de Recursos Fiscais</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_rpvpre">Precatórios e RPV - Requisição de Pequeno Valor</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_prog_proj">Programas e Projetos</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_public_estat">Publicações e Estatísticas</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_serv_terc">Serviços Terceirizados</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_simples_nacional">Simples Nacional</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_sintegra">SINTEGRA</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_subst_trib">Substituição Tributária</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_taxas">Taxas</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_download_ted">TED - Transmissão Eletrônica de Documentos</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_tsc">Transferência Saldo Credor ICMS</option>
+<option value="/Site/MontaArquivo.aspx?al=l_icms_trans_bens">Transporte de bens por não contribuintes - Informação de caráter geral</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_ver_aut">Verificação de Autenticidade</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_webservices">Web Services</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_duvidas_frequentes">Dúvidas Frequentes</option>
+
+</select>
+
+                                        </div>
+                                        <div class="comboAtalho">
+                                            <select class="forme" onchange="SubmeteCombo(this);" style="width: 170px">
+<option value="">Buscar por Público Alvo</option>
+<option value="">________________________</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_adm_cartao_credito">Administradoras de Cartão de Crédito</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_advogados">Advogados / Defensores Públicos</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_contab_contador">Contabilista / Contador</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cidadao">Contribuinte Pessoa Física</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_empresa">Contribuinte Pessoa Jurídica</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_cred_ecf">Credenciadas ECF</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_despaduana_imp">Despachante Aduaneiro / Importador</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_fornecedores">Fornecedores</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_func">Funcionários SEFAZ</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_graficas">Gráficas</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_org_pub_est">Órgãos Públicos Estaduais</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_municipio">Prefeituras</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_produtor_rural">Produtor Rural</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_recinto_alfandegado">Recinto Alfandegado</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_servidorpublico">Servidor Público</option>
+<option value="/Site/MontaMenu.aspx?MenuAlias=m_tabelionatos">Tabelionatos</option>
+
+</select>
+
+                                        </div>
+                                    </div>
+                                    <div class="escopo1">
+                                        <ul>
+                                            <li style="width:170px;"><a href="../Site/ServicosMaisUsados.aspx">Os Serviços mais utilizados</a></li>
+                                            <li style="width:170px;"><a href="../Site/MontaMenu.aspx?MenuAlias=m_servinf_loc">Locais de Atendimento</a></li>
+                                            <li style="width:170px;"><a href="../Site/MontaServicos.aspx">Serviços de A a Z</a></li>
+                                            <li style="width:170px;"><a href="../Site/MontaMenu.aspx?MenuAlias=m_download">Downloads</a></li>
+                                            <li style="width:170px;"><a href="http://www.legislacao.sefaz.rs.gov.br/" target="_blank">Portal de 
+                                                Legislação</a></li>
+												 <li style="width:175px;height:40px"><a href="http://www.legislacao.sefaz.rs.gov.br/Site/Area.aspx?inpKey=4" target="_blank">TARF- Tribunal Administrativo de Recursos Fiscais</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- A div consultaContribuinte estrutura a seção de maior acesso do portal //-->
+                                    <div class="consultaContribuinte">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td colspan="3" align="center">
+                                                    Consultas ao Contribuinte
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    CNPJ
+                                                </td>
+                                                <td>
+                                                    <input type="text" onkeypress="tecla_enterCadastro(event);" name="cnpj" id="txtCnpj"
+                                                        class="forme2" style="width: 100px" maxlength="14" title="Digite somente números" />
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    I.E.
+                                                </td>
+                                                <td>
+                                                    <input type="text" onkeypress="tecla_enterCadastro(event);" name="cgcte" id="txtCgcte"
+                                                        class="forme2" style="width: 100px" maxlength="10" title="Digite somente números" />
+                                                </td>
+                                                <td>
+                                                    <input name="btnConsultaContrib" type="button" onclick="SubmeteCadastro();" class="botaoPeq"
+                                                        value="OK" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <a href="/Site/MontaLink.aspx?al=l_ics_sel_fan">por Nome Fantasia</a>
+                                                    <br />
+                                                    <a href="/Site/MontaLink.aspx?al=l_emp_sel_nom">por Razão Social</a>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td align="left" style="vertical-align: top;">
+                                <!-- Área onde serão expostos todos os conteudos da parte institucional e dos departamentos //-->
+                                <div id="areaInformacional">
+                                    
+
+    <div id="painelControle2">
+        <div id="orientador">
+            
+        </div>
+        <div id="base">
+            <div id="voltar" class="voltar"><a href="javascript:history.back(-1)">Voltar</a></div>
+<div id="imprimir" class="imprimir"><a href="javascript:AbreJanela('../Site/Imprimir.aspx','',760,450,-1,-1,-1,-1,1,-1);void(0);">Imprimir</a></div>
+<div id="aMenos" class="aMenos"><a href="javascript:tamTexto('D','painelConteudo');void(0);">A-</a></div>
+<div id="aMais" class="aMais"><a href="javascript:tamTexto('A','painelConteudo');void(0);">A+</a></div>
+<div id="enviar" class="enviar"><a href="javascript:AbreJanela('../Site/EnviarPara.aspx','',560,318,-1,-1,-1,-1,-1,-1);void(0);">Enviar para...</a></div>
+
+        </div>
+    </div>
+     
+    <div id="ctl00_cphConteudo_areaConteudo" class="conteudo">
+        <div id="painelConteudo">
+            <br />
+            <ul id="botoes_nft" class="botoes_nft">
+              <li id="tab_0" onclick="mostraAba(0)" class="nftselected"><b>Consulta</b></li>
+            </ul>
+            <div class="aba_container" style="clear: both;">
+              <div id="aba_nft_0" class="nft" style="display: block;">
+                    <fieldset class="quadro" style="background-color: #E4E4E4; margin: 15px;">
+                        <legend class="titulo-aba-interna" id="toogleFiltro" style="cursor:pointer">- Cadastro Centralizado de Contribuinte (CCC)</legend>
+                        
+                        
+                        <div id="filtro">
+                            <fieldset class="quadro" style="background-color: White; margin-right: 15px;">
+                                <legend class="titulo-aba-interna">Filtros</legend>
+                                    <div>
+                                        <table border="0">
+                                            <tr>
+                                                <td style="width:5%;" class="TituloFiltro">
+                                                    Unidade de Federação
+                                                </td>
+                                                <td class="TituloFiltro">
+                                                    Ambiente de Processamento
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table cellpadding="0" cellspacing="0" width="150px">
+                                                        <tr>
+                                                            <td style="width:30%;padding:0px">
+                                                                <label class="labelBold" style="background-color: White;">UF:</label>
+                                                            </td>
+                                                            <td style="width:70%">
+                                                                 <select name="ctl00$cphConteudo$cmbUF" id="ctl00_cphConteudo_cmbUF" class="forme">
+	<option selected="selected" value="0">Todas</option>
+	<option value="12">12 - AC</option>
+	<option value="27">27 - AL</option>
+	<option value="13">13 - AM</option>
+	<option value="16">16 - AP</option>
+	<option value="29">29 - BA</option>
+	<option value="23">23 - CE</option>
+	<option value="53">53 - DF</option>
+	<option value="32">32 - ES</option>
+	<option value="52">52 - GO</option>
+	<option value="21">21 - MA</option>
+	<option value="31">31 - MG</option>
+	<option value="50">50 - MS</option>
+	<option value="51">51 - MT</option>
+	<option value="15">15 - PA</option>
+	<option value="25">25 - PB</option>
+	<option value="26">26 - PE</option>
+	<option value="22">22 - PI</option>
+	<option value="41">41 - PR</option>
+	<option value="33">33 - RJ</option>
+	<option value="24">24 - RN</option>
+	<option value="11">11 - RO</option>
+	<option value="14">14 - RR</option>
+	<option value="43">43 - RS</option>
+	<option value="42">42 - SC</option>
+	<option value="28">28 - SE</option>
+	<option value="35">35 - SP</option>
+	<option value="17">17 - TO</option>
+
+</select>
+                                                                 <div id="CarregandoUFConveniada" style=" display:none">
+                                                                     <img src="../Imagens/loading.gif" alt="Carregando..." style="border:0px"/>
+                                                                 </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table> 
+                                                </td> 
+                                                <td> 
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                 <label class="labelBold" style="margin-right:20px; background-color:white">Ambiente:</label>
+                                                            </td>
+                                                            <td>
+                                                                <label><input class="inputradio" type="radio" name="rdoAmbiente" id="rdoAmbienteProducao" value="1" checked="checked" /> Produção</label>
+                                                            </td>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                            <td>
+                                                               <label><input class="inputradio" type="radio" name="rdoAmbiente" id="rdoAmbienteHomologacao" value="2" /> Homologação</label>
+                                                            </td> 
+                                                        </tr> 
+                                                    </table>
+                                                </td> 
+                                            </tr>                                             
+                                             <tr>
+                                                 <td class="TituloFiltro" colspan="2">
+                                                    Dados do Contribuinte
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="labelBold" style="background-color: White;">CNPJ Contribuinte:</label>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+
+                                                                <div class="ContornoInput" id="ContornoCnpj">
+                                                                    <input type="text" name="tbxCNPJContrib" id="tbxCNPJContrib" class="apenasNumeros" maxlength="22" style="height:20px; border:none; outline:none; width:150px; float:left" value=""/>
+
+                                                                    <img src="../../imagens/lupa.gif" alt="Pesquisar por CNPJ" onclick="pesquisaContribuinte()" style="width:15px; float:right; margin-right:5px; margin-top:3px; vertical-align: middle;cursor:pointer"/>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input type="button" class="botaoGra" value="Pesquisar por CNPJ" onclick="preencheParametros('CNPJ')" />                                                                 
+                                                            </td>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div id="msgErroCnpj" style="color:red; font-size:10px; margin-left:4px"></div>
+                                                </td>
+                                                 
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="labelBold" style="background-color: White;">Inscrição Estadual:</label>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="ContornoInput" id="ContornoIe">
+                                                                    <input class="apenasNumeros" style="height:20px; border:none; width:150px; outline:none; float:left; vertical-align:middle" type="text" name="tbxIeContrib" id="tbxIeContrib" maxlength="14" value=""/>
+                                                                </div>                                                                
+                                                            </td>
+                                                            <td>
+                                                                 <input type="button" class="botaoGra" value="Pesquisar por IE" onclick="preencheParametros('IE')" /> 
+                                                            </td>
+                                                            <td>
+                                                                <div id="DivValidandoIE" style="display:none">
+                                                                    <img src="../Imagens/loading.gif" style="border:0px" alt="carregando..."/>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>   
+                                                    <div id="msgErroIe" style="color:red; font-size:10px; margin-left:4px"></div>                                                 
+                                                </td>
+                                            </tr> 
+
+                                            
+		                                        <tr id="captchaArea" style="display:none">
+                                                    <td colspan="3">
+	                                                    <table style="border:Solid 1px #506A00;padding:10px;" bgcolor="F4F8DA">
+                                                        <tr>
+                                                            <td width="100%">
+                                                                <b>Por motivo de segurança solicitamos que você digite os caracteres abaixo:</b><br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <form name="form1" METHOD="post" action="">
+                                                                    <table id="tbCaptchaContainer" border="0" style="width:220px; border:0">
+<tr><td colspan="3" style="text-align:center" ><img id="captchaImg" src="https://www.sefaz.rs.gov.br/captchaweb/imagens/loading.gif" alt="Aguarde..."/></td></tr>
+<tr><td style="font:normal 8pt verdana;white-space: nowrap;">Digite o c&oacute;digo acima:</td>
+    <td><input type="text" name="captchaCode" id="captchaCode" autocomplete="off" size="6"/></td>
+    <td style="width:16px; vertical-align:middle"><img alt="Regarregar Imagem" title="Clique aqui caso a imagem n&atilde;o esteja leg&iacute;vel" src="https://www.sefaz.rs.gov.br/captchaweb/imagens/captcha_reload.gif" onclick="reload();"/></td>
+</tr></table>
+<input id="captchaRdnKey" name="captchaRdnKey" type ="hidden" value=""/>
+<script type="text/javascript">
+function newCaptcha(){
+   var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   var key_length = 32;
+   var key = "";
+   for (var i=0; i<key_length; i++) {
+       var rnum = Math.floor(Math.random() * (chars.length-1));
+       key += chars.substr(rnum, 1);
+   }
+   document.getElementById("captchaRdnKey").value = key;
+   document.getElementById("captchaImg").src = "https://www.sefaz.rs.gov.br/captchaweb/prCaptcha.aspx?f=getimage&rld=0&rdn=" + key;
+   document.getElementById("captchaCode").value = "";
+}
+var rld=0;
+function reload(){
+   rld++;
+   $("[id=captchaImg]").attr("src","https://www.sefaz.rs.gov.br/captchaweb/prCaptcha.aspx?f=getimage&rld=" + rld + "&rdn=" + document.getElementById("captchaRdnKey").value);
+   $("[id=captchaCode]").attr("value","");
+}
+newCaptcha();
+</script>
+<br />                                                                    
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                        </table>
+                                                    </td>
+		                                        </tr>
+		                                        
+                                        </table>
+                                    </div>
+                            </fieldset>  
+                        </div>
+
+                        <div id="texto" style="background-color:white; width:96%; padding:12px;margin:10px; font-style:italic">
+                            Dentro do Sistema NFE, as SEFAZ mantém um "Cadastro Centralizado de Contribuintes (CCC)" com o objetivo de viabilizar
+                            a validação do destinatário em uma operação interestadual. Atualmente ainda não são todas as SEFAZ que mantém
+                            o Cadastro Centralizado de Contribuintes e esta transação consulta este cadastro.
+                            <p></p>Utilizado como filtro da consulta o CNPJ completo (14 posições) ou a Inscrição do Contribuinte.
+                            Ao invés do CNPJ, pode ser informado também unicamente o CNPJ-Base (8 primeiras posições do CNPJ).
+                            <p></p>Ainda como suporte a pesquisa para determinação do CNPJ, pode ser informado o nome da empresa, ou parte do nome
+                            da empresa. A intenção é auxiliar a identificação da empresa a ser consultada.
+                        </div>
+                        
+                    </fieldset>
+                    <div id="areaProcessando" style="display: none; visibility: hidden;">
+                        <center>
+                            <br />
+                            <span class="linha">Processando, aguarde ...</span><br />
+                            <img src="../Imagens/loadingAjax.gif" alt="Processando..." border="0" />
+                        </center>
+                    </div>
+                    <fieldset class="quadro" style="margin: 15px; display: none; visibility: hidden; background-color:#E9E9E9 " id="fieldSetResult">
+                        
+                        <legend class="titulo-aba-interna">Resultado</legend>
+                        
+                        <div id="conteudoResult">  
+                        </div>
+                    </fieldset>
+              </div>             
+            </div>
+        </div>
+    </div> 
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%;">
+                    <div id="barraInferior">
+                        Desenvolvido pela <a href="http://www.procergs.com.br/" target="_blank">PROCERGS</a>.
+                        <a href="../w3c/PoliticaPrivacidade.aspx">Leia nossa Política de Privacidade.</a> <a href="../Site/FaleConosco.aspx?fc=WEBMASTER">Fale com o Webmaster</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        </form> 
+    </div>
+
+    <form name="frmPesquisa" method="post" action="../Site/Busca.aspx">
+    <input type="hidden" name="txtPalavraBusca" value="" />
+    </form>
+    <form name="frmEnquete" method="post" action="">
+        <input type="hidden" name="votoEnq" id="votoEnq" value="" />
+        <input type="hidden" name="cod_enquete" id="cod_enquete" value="" />
+        <input type="hidden" name="cod_pergunta" id="cod_pergunta" value="" />
+        <input type="hidden" name="cod_perguntas" id="cod_perguntas" value="" />
+    </form>
+    <form name="frmCadastro" method="post" action="">
+    <input type="hidden" name="txtCgcte" value="" />
+    <input type="hidden" name="txtCnpj" value="" />
+    </form>
+    <script defer src="../Include2/browserUpdate.js" type="text/javascript"></script>
+</body>
+</html>

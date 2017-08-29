@@ -1,0 +1,32 @@
+{
+  "name": "sintegra-php/sc",
+  "description": "Consulte gratuitamente CNPJ no site do Sefaz -  Cadastro Centralizado de Contribuinte (CCC)",
+  "keywords": ["Sefaz", " Cadastro Centralizado de Contribuinte (CCC)"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Márcio bortolini dos Santos",
+      "email": "marciobds@live.it"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "ext-curl":"*",
+    "fabpot/goutte": "~3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SefazPHP\\": "src/"
+    }
+  },
+  "extra": {
+      "branch-alias": {
+          "dev-master": "1.0-dev"
+      }
+  },
+  "minimum-stability": "dev"
+}
