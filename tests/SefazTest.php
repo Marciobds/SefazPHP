@@ -76,7 +76,7 @@ class SefazTest extends PHPUnit_Framework_TestCase
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/nenhum_estabelecimento.html'));
 
-		$this->expectException(Exception::class);
+		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 
 	}
@@ -86,7 +86,7 @@ class SefazTest extends PHPUnit_Framework_TestCase
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/erro_captcha.html'));
 
-		$this->expectException(Exception::class);
+		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 	}
 
@@ -95,7 +95,7 @@ class SefazTest extends PHPUnit_Framework_TestCase
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/requisicao_invalida.html'));
 
-		$this->expectException(Exception::class);
+		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 	}
 
