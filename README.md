@@ -25,13 +25,13 @@ require_once 'vendor/autoload.php';
 Primeiro chame o método `getParams()` para retornar os dados necessários para enviar no método `consulta()` 
 
 ```php
-$params = SefazPHP\Sefaz::getParams();
+$params = Marciobds\SefazPHP\Sefaz::getParams();
 ```
 
 Agora basta chamar o método `consulta()`
 
 ```php
-$dadosEmpresa = SefazPHP\Sefaz::consulta(
+$dadosEmpresa = Marciobds\SefazPHP\Sefaz::consulta(
     'INFORME_O_CNPJ',
     $params['key'],
     'INFORME_AS_LETRAS_DO_CAPTCHA',
