@@ -2,8 +2,9 @@
 
 use Marciobds\SefazPHP\Sefaz;
 use Symfony\Component\DomCrawler\Crawler;
+use PHPUnit\Framework\TestCase;
 
-class SefazTest extends PHPUnit_Framework_TestCase
+class SefazTest extends TestCase
 {
 	public function testGetParams()
 	{
@@ -71,31 +72,37 @@ class SefazTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($key, 'FQ+i3D7UZanBCaUTURUP1+t1bEp7AGN+QlQc+s1SML8=');
 	}
 	
+	 /**
+      * @expectedException Exception
+      */	
 	public function testEstabelecimentoNaoEncontrato()
 	{
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/nenhum_estabelecimento.html'));
 
-		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 
 	}
-
+	
+	 /**
+      * @expectedException Exception
+      */
 	public function testCaptchaIncorreto()
 	{
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/erro_captcha.html'));
 
-		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 	}
-
+	
+	 /**
+      * @expectedException Exception
+      */
 	public function testRequisicaoInvalida()
 	{
 		$crawler = new Crawler();
 		$crawler->addHtmlContent(file_get_contents(__DIR__ . '/requisicao_invalida.html'));
 
-		$this->setExpectedException(Exception::class);
 		Sefaz::parseUrl($crawler);
 	}
 
