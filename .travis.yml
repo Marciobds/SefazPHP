@@ -10,4 +10,4 @@ before_script:
   - composer update
 
 script:
-  - phpunit tests/
+  - vendor/bin/phpunit tests/
