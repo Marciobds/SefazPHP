@@ -149,7 +149,7 @@ class Sefaz
      */
     public static function parseCookies($cookies)
     {
-        $return = [];
+        $return = array();
         foreach($cookies as $cookie) {
             $cookie = explode(';', $cookie);
             foreach($cookie as $val) {
