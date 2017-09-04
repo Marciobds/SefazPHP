@@ -35,7 +35,7 @@ class Sefaz
 
         $cookies = self::parseCookies($headers['Set-Cookie']);
         $key = self::parseKey($crawler->html());
-        $captchaKey = md5('YmdHis');
+        $captchaKey = md5(date('YmdHis'));
         $captcha = "https://www.sefaz.rs.gov.br/captchaweb/prCaptcha.aspx?f=getimage&rld=0&rdn=".$captchaKey;
 
         return array(
